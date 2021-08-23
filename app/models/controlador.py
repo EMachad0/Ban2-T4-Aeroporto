@@ -1,6 +1,7 @@
 from app.app import db
 
 
-class Controlador(db.Model):
-    id_fun = db.Column(db.Integer, db.ForeignKey('funcionario.id_fun'), primary_key=True)
-    data_exame = db.Column(db.Date)
+class Controlador(db.Document):
+    data_exame = db.DateTimeField()
+    n_matricula = db.IntField()
+    n_membro = db.IntField()

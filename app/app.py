@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
+from flask_mongoengine import MongoEngine
 
 
 def create_app():
@@ -11,9 +11,10 @@ def create_app():
 
 
 def config_db(app):
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db = SQLAlchemy(app)
+    app.config['MONGODB_SETTINGS'] = {
+        'host': '172.19.0.2',
+    }
+    db = MongoEngine(app)
     return app, db
 
 

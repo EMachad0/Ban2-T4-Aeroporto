@@ -6,6 +6,7 @@
         <div class="text-center">
             <h1> {{ title }} </h1>
             {{ table_macro(table) }}
+            <h2 class="mb-2"> Cadastrar {{ title }}: </h2>
             {% for form in forms %}
                 {{ form_macro(form) }}
             {% endfor %}

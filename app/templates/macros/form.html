@@ -1,26 +1,39 @@
-{% macro form_macro(form) -%}
+{% macro fields_form_macro(form) %}
+    {{ form.csrf_token }}
+    {% for field in form if field.widget.input_type != 'hidden' %}
+        <div class="mb-1 row">
+            {{ field.label(class_="form-label col-3") }}
+            {% if field.type == 'SelectFieldBase' or field.type == 'SelectField' or field.type == 'SelectMultipleField' %}
+                {{ field(class_="form-select col") }}
+            {% elif field.type == 'FormField' %}
+                <div class="col form-control">
+                    {{ fields_form_macro(field) }}
+                </div>
+            {% elif field.type == 'FieldList' %}
+                <ul class="col form-control">
+                    {{ fields_form_macro(field) }}
+                </ul>
+            {% else %}
+                {{ field(class_="form-control col") }}
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{% macro form_macro(form) %}
     <form method="post">
         {% for field, errors in form.errors.items() %}
-            <div class="alert alert-error">
-                {{ form[field].label }}: {{ ', '.join(errors) }}
+            <div class="text-danger">
+                <div class="mb-1">
+                    <br>{{ form[field].label }}: {{ ', '.join(errors) }}
+                </div>
             </div>
         {% endfor %}
-        {{ form.csrf_token }}
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <tr>
-                    {% for field in form if field.widget.input_type != 'hidden' %}
-                        <th>{{ field.label(class_='form-label') }}</th>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    {% for field in form if field.widget.input_type != 'hidden' %}
-                        <td>{{ field(class_='form-control') }}</td>
-                    {% endfor %}
-                </tr>
-            </table>
+        <div class="container my-form">
+            {{ fields_form_macro(form) }}
         </div>
-        <br>
-        <input type="submit" class="w-25 btn btn-primary" value=Cadastrar>
+        <div class="text-end">
+            <button type="submit" class="btn btn-dark">Criar</button>
+        </div>
     </form>
-{%- endmacro %}
+{% endmacro %}

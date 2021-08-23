@@ -1,19 +1,45 @@
+{% macro th_macro(table) -%}
+    {% if table|length > 0 %}
+        {% for col, v in table[0].items() if col != '_id' %}
+            {% if v is iterable and (v is not string and v is not mapping) %}
+                {{ th_macro(v) }}
+            {% elif v is mapping %}
+                {{ th_macro([v]) }}
+            {% else %}
+                <th>{{ col }}</th>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{%- endmacro %}
+
+{% macro td_macro(row) -%}
+    {% for k, v in row.items() if k != '_id' %}
+        {% if v is iterable and (v is not string and v is not mapping) %}
+            <td colspan="{{ v[0] | length }}" class="p-0">
+                <table class="table table-sm table-borderless m-0">
+                    {% for r in v %}
+                        <tr>{{ td_macro(r) }}</tr>
+                    {% endfor %}
+                </table>
+            </td>
+        {% elif v is mapping %}
+            {{ td_macro(v) }}
+        {% elif v is mapping %}
+            {{ td_macro(v) }}
+        {% elif k == 'aviao' %}
+            <td>Aviao {{ v.n_registro }}</td>
+        {% else %}
+            <td>{{ v }}</td>
+        {% endif %}
+    {% endfor %}
+{%- endmacro %}
+
 {% macro table_macro(table) -%}
     <div class="my-table table-responsive">
         <table class="table table-striped table-hover">
-            <tr>
-                {% if table|length > 0 %}
-                    {% for col in table[0].keys() %}
-                        <th>{{ col }}</th>
-                    {% endfor %}
-                {% endif %}
-            </tr>
+            <tr>{{ th_macro(table) }}</tr>
             {% for row in table %}
-                <tr>
-                    {% for k, v in row.items() %}
-                        <td>{{ v }}</td>
-                    {% endfor %}
-                </tr>
+                <tr>{{ td_macro(row) }}</tr>
             {% endfor %}
         </table>
     </div>

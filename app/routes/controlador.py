@@ -15,5 +15,5 @@ def controlador():
         return redirect('/controlador')
 
     rows = controlador_dao.get_all()
-    table = [dict(row) for row in rows]
+    table = [row.to_mongo().to_dict() for row in rows]
     return render_template('page.html', title='Controlador', table=table, forms=[form])

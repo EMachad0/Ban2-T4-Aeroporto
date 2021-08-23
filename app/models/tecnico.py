@@ -1,8 +1,11 @@
 from app.app import db
+from app.models.modelo import Modelo
 
 
-class Tecnico(db.Model):
-    id_fun = db.Column(db.Integer, db.ForeignKey('tecnico.id_fun'), primary_key=True)
-    endereco = db.Column(db.String(50))
-    telefone = db.Column(db.Integer)
-    salario = db.Column(db.Float, nullable=False)
+class Tecnico(db.Document):
+    endereco = db.StringField(max_length=50)
+    telefone = db.IntField()
+    salario = db.FloatField(required=True)
+    n_matricula = db.IntField(required=True)
+    n_membro = db.IntField(required=True)
+    pericias = db.EmbeddedDocumentListField(Modelo)

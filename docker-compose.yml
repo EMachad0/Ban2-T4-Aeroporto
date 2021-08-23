@@ -1,13 +1,9 @@
 version: '3'
 services:
-  postgres:
-    image: postgres
-    hostname: postgres
+  mongo:
+    image: mongo
     ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      - "27017:27017"
 
   web:
     build: .

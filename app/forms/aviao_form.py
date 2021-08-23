@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField
+from wtforms import IntegerField, FormField
 from wtforms.validators import DataRequired
+from app.forms.modelo_form import ModeloForm
 
 
 class AviaoForm(FlaskForm):
-    id_avi = IntegerField("Id Avião")
-    id_mod = IntegerField("Id Modelo", validators=[DataRequired()])
     n_registro = IntegerField("Nº Registro", validators=[DataRequired()])
+    modelo = FormField(ModeloForm)
