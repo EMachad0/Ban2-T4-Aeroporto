@@ -7,9 +7,9 @@ from app.dao import aviao_dao, tecnico_dao, tipo_teste_dao
 
 
 class TesteForm(FlaskForm):
-    aviao = SelectField("Avião", validators=[DataRequired()], choices=[(o.id, o.n_registro) for o in aviao_dao.get_all()])
-    tecnico = SelectField("Técnico", validators=[DataRequired()], choices=[(o.id, o.n_membro) for o in tecnico_dao.get_all()])
-    tipo_teste = SelectField("Tipo do Teste", validators=[DataRequired()], choices=[(o.id, o.n_anac) for o in tipo_teste_dao.get_all()])
+    aviao = SelectField("Avião", validators=[DataRequired()], choices=[(o.id, f"Nº registro: {o.n_registro} Modelo: {o.modelo.cod}") for o in aviao_dao.get_all()])
+    tecnico = SelectField("Técnico", validators=[DataRequired()], choices=[(o.id, f"Matricula: {o.n_matricula} Membro: {o.n_membro}") for o in tecnico_dao.get_all()])
+    tipo_teste = SelectField("Tipo do Teste", validators=[DataRequired()], choices=[(o.id, f"Nº ANAC: {o.n_anac} Nome: {o.nome}") for o in tipo_teste_dao.get_all()])
     data_teste = DateField("Data", validators=[DataRequired()])
     horas_gastas = IntegerField("Horas Gastas", validators=[DataRequired()])
     pontuacao = IntegerField("Pontuação", validators=[DataRequired()])
