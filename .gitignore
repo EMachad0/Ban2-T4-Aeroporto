@@ -133,7 +133,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+# .env
 .venv
 env/
 venv/
@@ -486,8 +486,4 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
-*.env
 .vscode
-
-static/img/card_images/*.jpg
-static/img/card_images_small/*.jpg
